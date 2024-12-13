@@ -1,0 +1,295 @@
+---
+title: "Data Visualization"
+author: "Amjad"
+date: "2024-12-12"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+
+# Violin Plot
+
+```{r}
+library(ggplot2)
+data("diamonds")
+sample <- diamonds[seq(1, 53000, by=10),]
+nrow(sample)
+
+p <- ggplot(data = sample, aes(x = cut, y = price, fill = cut))+ geom_violin()  
+
+p 
+
+
+
+```
+
+
+
+
+
+
+
+```{r}
+sample <- diamonds[seq(1, 53000, by=100),]
+nrow(sample)
+
+p <- ggplot(data = sample, aes(x = cut, y = price, fill = cut))+ 
+  geom_violin()  
+
+p + geom_boxplot(width = 0.1) 
+
+
+
+
+
+
+```
+
+```{r}
+p + geom_boxplot(width = 0.1) + geom_jitter(size = 0.5)
+
+```
+
+
+# Scatter Plot
+
+```{r}
+library(ggplot2)
+
+data("cars")
+
+ggplot(data = cars, aes(x = speed, y = dist)) + 
+  geom_point()
+
+
+
+```
+
+
+
+```{r}
+
+ggplot(data = cars, aes(x = speed, y = dist)) + geom_point() + 
+  geom_smooth()
+
+
+```
+
+```{r}
+
+ggplot(data = cars, aes(x = speed, y = dist)) + geom_point() + 
+  geom_smooth(method = "lm", se=T, level = 0.9)
+
+
+```
+
+
+```{r}
+# scatter plot with multi lines
+data("Orange")
+
+ggplot(data = Orange, aes(x = age, y = circumference)) + geom_point()
+
+```
+
+```{r}
+ggplot(data = Orange, aes(x = age, y = circumference, colour = Tree)) + geom_point()
+
+
+
+
+```
+
+
+```{r}
+ggplot(data = Orange, aes(x = age, y = circumference, colour = Tree)) + 
+  geom_point(size = 3)
+
+
+
+
+```
+
+
+```{r}
+ggplot(data = Orange, aes(x = age, y = circumference, colour = Tree)) + 
+  geom_point(size = 3, shape = 16)
+```
+
+
+```{r}
+ggplot(data = Orange, aes(x = age, y = circumference, shape = Tree)) + 
+  geom_point(size = 3)
+
+
+
+```
+
+
+```{r}
+ggplot(data = Orange, aes(x = age, y = circumference, colour = Tree)) + 
+  geom_point(size = 3, aes(shape = Tree))
+```
+
+
+```{r}
+ggplot(data = Orange, aes(x = age, y = circumference, colour = Tree)) + 
+  geom_point(size = 3) + 
+  geom_line(linetype = 1, size = 1)
+```
+
+
+```{r}
+ggplot(data = Orange, aes(x = age, y = circumference, colour = Tree)) + 
+  geom_point(size = 3) + 
+  geom_line(linetype = 2, size = 1)
+
+```
+
+
+```{r}
+ggplot(data = Orange, aes(x = age, y = circumference, colour = Tree)) + 
+  geom_point(size = 3) + 
+  geom_line(aes(linetype = Tree), size = 1)
+```
+
+
+```{r}
+ggplot(data = Orange, aes(x = age, y = circumference)) + 
+  geom_point(size = 3) + 
+  geom_line(aes(linetype = Tree), size = 1)
+```
+
+
+```{r}
+ggplot(data = Orange, aes(x = age, y = circumference, colour = Tree)) + 
+  geom_point(size = 3) + 
+  geom_line(aes(linetype = Tree), size = 1)
+ggsave("scatterplot.pdf")
+```
+
+
+```{r}
+ggplot(data = Orange, aes(x = age, y = circumference, colour = Tree)) + 
+  geom_point(size = 3) + 
+  geom_line(aes(linetype = Tree), size = 1) + 
+  labs(x = "Age", y = "Circumference", title = "Tree Scatter Plot")
+```
+
+
+
+# Bubble Plots
+
+
+```{r}
+library(viridis)
+data("quakes")
+q_sample <- quakes[seq(from = 1, to = 1000, by = 10),]
+nrow(q_sample)
+
+```
+
+
+```{r}
+ggplot(data = q_sample, aes(x = lat, y = long)) + geom_point()
+
+
+
+
+```
+
+
+```{r}
+ggplot(data = q_sample, aes(x = lat, y = long)) + 
+  geom_point(aes(size = mag)) 
+
+
+
+
+
+```
+
+
+```{r}
+ggplot(data = q_sample, aes(x = lat, y = long)) + 
+  geom_point(aes(size = mag, colour = mag))
+```
+
+
+```{r}
+ggplot(data = q_sample, aes(x = lat, y = long)) + 
+  geom_point(aes(size = mag, colour = mag)) + guides(size = F)
+```
+
+
+```{r}
+ggplot(data = q_sample, aes(x = lat, y = long)) + 
+  geom_point(aes(size = mag, colour = mag)) + scale_colour_viridis_b()
+
+
+
+
+```
+
+
+```{r}
+ggplot(data = q_sample, aes(x = lat, y = long)) + 
+  geom_point(aes(size = mag, colour = mag)) + scale_colour_viridis_b(option = "B")
+```
+
+
+```{r}
+ggplot(data = q_sample, aes(x = lat, y = long)) + 
+  geom_point(aes(size = mag, colour = mag)) + scale_colour_viridis_b(option = "B") +
+  scale_size_continuous(range = c(1,9))
+```
+
+
+
+```{r}
+ggplot(data = q_sample, aes(x = lat, y = long)) + 
+  geom_point(aes(size = mag, colour = mag)) + scale_colour_viridis_b(option = "B") +
+  scale_size_continuous(range = c(1,9)) +
+  labs(x = "latitude", y = "longitude", title = "Quakes Bubble Plot")
+```
+
+  
+ # Jitter Plot
+ 
+```{r}
+data("diamonds")
+d <- diamonds[seq(1, 49000, by = 100),]
+nrow(d)
+
+```
+ 
+ 
+```{r}
+ggplot(d, aes(x = cut, y = price)) + 
+  geom_jitter()
+  
+```
+  
+  
+```{r}
+ggplot(d, aes(x = cut, y = price)) + 
+  geom_point()
+```
+  
+  
+```{r}
+ggplot(d, aes(x = cut, y = price, colour = cut)) + 
+  geom_jitter() 
+```
+  
+  
+```{r}
+d1 <- diamonds[seq(1, 49000, by = 10),]
+
+ggplot(d1, aes(x = cut, y = price, colour = cut)) + 
+  geom_jitter() 
+
+```
+  
+  
